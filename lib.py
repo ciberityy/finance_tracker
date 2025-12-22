@@ -74,61 +74,39 @@ def get_user_current_balance():
             except ValueError:
                 print("Invalid input. Please enter a valid number")
 
-def handle_expense_category(category_name, sub_menu, subcategory_dict, expense_dict):
-    
-    """displays the correct sub menu to the user depending on his category choice,
-    if the user's input is correct, it converts it to an int, then access the user sub input in the subcategory dict
-    and then asks for the spending amount,
-    it then increments that sub category and then the total of that category and then the whole dictionnary (Grand_Total)
-    prints whether or not it worked.
-    this functions avoids repeating the code each time the user chooses a category to add expenses to 
-
-    Args:
-        category_name (str): the main categories 
-        sub_menu (str): sub_menus with the sub categories 
-        subcategory_dict (dict): subcategory dict with numbers as keys in order to link that with the main dict
-        expense_dict (dict): the whole main dictionnary
-    
-    Returns:
-        None: This function doesn't return a value, it modifies the expense dictionary in place."""
+def handle_expense_category(CATEGORIES, category_name, expense_dict):
     
     while True:
-        user_sub_input = input(sub_menu)
+        subcategories = CATEGORIES[category_name]
 
-        for key in subcategory_dict.keys():
-            sub_menu_choice = str(key)
-            print(key)
+        for index, subcategory in enumerate(subcategories, 1):
+            print(f"{index}. {subcategory}")
 
-            if user_sub_input in sub_menu_choice:
-                user_sub_input = int(user_sub_input)
-                
-                subcategory = subcategory_dict[user_sub_input]
-                
-                spendings = get_user_spending_input()
-                print(spendings)
-                
-                expense_dict[category_name][subcategory] += spendings
-                expense_dict[category_name]["Total"] += spendings
-                expense_dict["Grand_Total"] += spendings
-                
-                print("Value added to your expenses!")
-                print("-" * 50)
-                break
+        user_choice = input("Your Choose : ")
 
-            else:
-                print("Invalid input please try again.")
+        if not user_choice.isdigit():
+            print("Invalid input.")
+            continue
+        
+        user_choice = int(user_choice)
+        
+        subcategory_name = subcategories[user_choice - 1]
+
+        spendings = get_user_spending_input()
             
-            break
-        break
-
-                
-               
+        expense_dict[category_name][subcategory_name] += spendings
+        expense_dict[category_name]["Total"] += spendings   
+        expense_dict["Grand_Total"] += spendings
+ 
+            
+        print("Value added to your expenses!")
+        print("-" * 50)
+        break               
             
         
 
 if __name__ == "__main__":
-    get_user_current_balance()
-
+    pass
 
 
     

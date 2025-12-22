@@ -5,7 +5,7 @@ MENU = """Choose a category to add expenses to (1 - 3) :
 3.Chill day 
 4.My Expenses  
 5.Exit
-Your choice : """ #ask claude for scalability, because if i try to implement a new category, i gotta respect categories order, also change a bunch of code, now i always hear about scalability, i never understood what is it is, but i guess i'm starting to 
+Your choice : """ 
 
 MENU_CHOICES = ["1", "2", "3", "4", "5"]
 

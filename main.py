@@ -9,56 +9,48 @@ def main():
     current_balance = get_user_current_balance()
     user_income = get_user_income_input()
 
-    d = {"Grand_Total": 0,         
-         
-"Food": {
-    "Total": 0,
-    "Sandwich": 0,
-    "Coffee": 0,
-    "Water": 0,
-},
-"Transport": {
-    "Total": 0,
-    "Bus": 0,
-    "Taxi": 0,
-    "Vtc": 0,
-},
-"Chill_day": {
-    "Total": 0,
-    "Dinner": 0,
-    "Beach_day": 0,
-    "Gaming": 0,
-}
-}
+    CATEGORIES = {
+                    "Food": ["Sandwich", "Coffee" , "Water"],
+                    "Transport": ["Bus", "Taxi", "Vtc" ],
+                    "Chill_day": ["Dinner", "Beach_day", "Gaming"],
+                    }
     
-
-    food_subcategories = {1: "Sandwich",
-                           2: "Coffee",
-                             3: "Water"}   
+    d = {"Grand_Total": 0,
     
-    transport_subcategories = {1: "Bus"
-                               , 2: "Taxi", 
-                               3: "Vtc"}
-    
-    chill_day_subcategories = {1: "Dinner"
-                               , 2: "Beach_day"
-                               , 3: 'Gaming'}
-
+    "Food": {
+        "Total": 0,
+        "Sandwich": 0,
+        "Coffee": 0,
+        "Water": 0,
+    },
+    "Transport": {
+        "Total": 0,
+        "Bus": 0,
+        "Taxi": 0,
+        "Vtc": 0,
+    },
+    "Chill_day": {
+        "Total": 0,
+        "Dinner": 0,
+        "Beach_day": 0,
+        "Gaming": 0,
+    }
+    }
 
     while True:
         print("\n" + "-" * 50)
         user_input = get_user_input()
         
         if user_input == "1":
-            handle_expense_category("Food", SUB_MENU, food_subcategories, d)
+            handle_expense_category(CATEGORIES=CATEGORIES, category_name="Food", expense_dict=d)
         
               
         elif user_input == "2":
-            handle_expense_category("Transport", SUB_MENU_2, transport_subcategories, d)
+            handle_expense_category(CATEGORIES=CATEGORIES,category_name="Transport", expense_dict=d)
        
         
         elif user_input == "3":
-           handle_expense_category("Chill_day", SUB_MENU_3, chill_day_subcategories, d)
+           handle_expense_category(CATEGORIES=CATEGORIES, category_name="Chill_day", expense_dict=d)
       
     
         
