@@ -1,22 +1,32 @@
-
 from constants import MENU, MENU_CHOICES
 
-def get_user_input():
+def get_user_input(CATEGORIES, MENU):
     
     """gets the users input to choose a category to add expenses to,
     then checks if that input is valid 
-    then it converts the input to an int
 
     Returns:
-        str: has to be contained in MENU_CHOICES
+        int: 
     """
+
+    valid_choice = len(CATEGORIES) + len(MENU)
+    
     while True:
-        user_input = input(MENU)
-        if user_input in MENU_CHOICES:
-            return user_input    
-        
-        print("Invalid input, try again.")
+        user_input = input(generate_main_menu(CATEGORIES, MENU))
+        if not user_input.isdigit():
+            print("Invalid input.")
+            continue
+
+        user_input = int(user_input)
+
+        if not user_input <= valid_choice:
+            print("Invalid input")
+            continue
+
         print("-" * 50) 
+        return user_input    
+        
+        
 
 def get_user_income_input(): 
     
@@ -46,9 +56,10 @@ def get_user_spending_input():
         int: has to be over 0  
     """
     while True:
+        MAX_INPUT = 60000
         spending_amout_input = input("Enter an amount : ")
 
-        if spending_amout_input.isdigit() and (0 < int(spending_amout_input) < 60000):
+        if spending_amout_input.isdigit() and int(spending_amout_input) <= MAX_INPUT:
             spending_amout_input = int(spending_amout_input)
             return spending_amout_input
         
@@ -82,14 +93,17 @@ def handle_expense_category(CATEGORIES, category_name, expense_dict):
         for index, subcategory in enumerate(subcategories, 1):
             print(f"{index}. {subcategory}")
 
-        user_choice = input("Your Choose : ")
+        user_choice = input("Your Choice : ")
 
-        if not user_choice.isdigit():
+        if not user_choice.isdigit(): 
             print("Invalid input.")
             continue
-        
+
         user_choice = int(user_choice)
         
+        if not user_choice <= len(subcategories):
+            continue
+    
         subcategory_name = subcategories[user_choice - 1]
 
         spendings = get_user_spending_input()
@@ -101,9 +115,38 @@ def handle_expense_category(CATEGORIES, category_name, expense_dict):
             
         print("Value added to your expenses!")
         print("-" * 50)
-        break               
-            
+        break    
+
+def generate_main_menu(CATEGORIES, MENU):
+    """Generate the main menu for the user 
+
+    Args:
+        CATEGORIES (_Dict_): _description_
+        MENU (_List_): _description_
+    """
+    number_of_categories = len(CATEGORIES)
+    
+    menu = ""
+    menu += f"Choose a category from : (1 - {len(CATEGORIES)} + {len(MENU)})\n"
+    
+    for index, category in enumerate(CATEGORIES.keys(), 1):
+        menu += f"{index}. {category}\n"
+    
+    for i, item in enumerate(MENU, number_of_categories + 1):
+        menu += f"{i}. {item}\n"
+    menu += f"Your choice : "
+
+    return menu
+    
+
         
+    
+
+
+
+            
+            
+
 
 if __name__ == "__main__":
     pass

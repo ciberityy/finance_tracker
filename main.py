@@ -1,8 +1,7 @@
 import sys
+from constants import MENU
 
-
-from constants import SUB_MENU, SUB_MENU_2, SUB_MENU_3
-from lib import get_user_input, get_user_income_input, get_user_current_balance, handle_expense_category
+from lib import get_user_input, get_user_income_input, get_user_current_balance, handle_expense_category, generate_main_menu
 
 
 def main():
@@ -39,22 +38,21 @@ def main():
 
     while True:
         print("\n" + "-" * 50)
-        user_input = get_user_input()
         
-        if user_input == "1":
+        user_input = get_user_input(CATEGORIES, MENU)
+        
+        if user_input == 1:
             handle_expense_category(CATEGORIES=CATEGORIES, category_name="Food", expense_dict=d)
         
               
-        elif user_input == "2":
+        elif user_input == 2:
             handle_expense_category(CATEGORIES=CATEGORIES,category_name="Transport", expense_dict=d)
        
         
-        elif user_input == "3":
+        elif user_input == 3:
            handle_expense_category(CATEGORIES=CATEGORIES, category_name="Chill_day", expense_dict=d)
       
-    
-        
-        elif user_input == "4":
+        elif user_input == 4:
             
             print("\n" + "-" * 50)
             print(f"\n---Food expenses: {d['Food']["Total"]} dzd")
@@ -75,7 +73,7 @@ def main():
 
          
         
-        elif user_input == "5":
+        elif user_input == 5:
             sys.exit()
 
         remaining_income = user_income - d["Grand_Total"]
@@ -86,14 +84,13 @@ def main():
         print(f'YOUR INITIAL INCOME : {user_income}')
         print(f'YOUR REMAINING BALANCE: {remaining_balance}')
         print(f'YOUR REMAINING INCOME: {remaining_income}')
-           
         
+    
+    
 
 
 if __name__ == "__main__":
     main()
-    
-    
             
 
 
