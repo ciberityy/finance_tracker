@@ -14,34 +14,12 @@ def main():
         "Chill_day": ["Dinner", "Beach_day", "Gaming"],
     }
 
-    expenses = {"Grand_Total": 0,
-
-                "Food": {
-                    "Total": 0,
-                    "Sandwich": 0,
-                    "Coffee": 0,
-                    "Water": 0,
-                },
-                "Transport": {
-                    "Total": 0,
-                    "Bus": 0,
-                    "Taxi": 0,
-                    "Vtc": 0,
-                },
-                "Chill_day": {
-                    "Total": 0,
-                    "Dinner": 0,
-                    "Beach_day": 0,
-                    "Gaming": 0,
-                }
-                }
+    expenses = generate_expense_dict(CATEGORIES)
 
     while True:
         print("\n" + "-" * 50)
 
         user_input = get_user_input(CATEGORIES, MENU)
-
-        expenses = generate_expense_dict(CATEGORIES)
 
         if user_input == 1:
             handle_expense_category(CATEGORIES, "Food", expenses)
