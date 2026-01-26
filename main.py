@@ -1,7 +1,7 @@
 import sys
 from constants import MENU
 
-from lib import get_user_input, get_user_income_input, get_user_current_balance, handle_expense_category, generate_expense_dict
+from lib import get_user_input, get_user_income_input, get_user_current_balance, handle_expense_category, generate_expense_dict, handle_user_choice
 
 
 def main():
@@ -12,6 +12,7 @@ def main():
         "Food": ["Sandwich", "Coffee", "Water"],
         "Transport": ["Bus", "Taxi", "Vtc"],
         "Chill_day": ["Dinner", "Beach_day", "Gaming"],
+        "Entertainement": ["Movies", "Games", "Concert"]
     }
 
     expenses = generate_expense_dict(CATEGORIES)
@@ -19,7 +20,7 @@ def main():
     while True:
         print("\n" + "-" * 50)
 
-        user_input = get_user_input(CATEGORIES, MENU)
+        user_input = handle_user_choice(CATEGORIES, MENU)
 
         if user_input == 1:
             handle_expense_category(CATEGORIES, "Food", expenses)
@@ -68,4 +69,3 @@ def main():
 
 
 if __name__ == "__main__":
-    main()

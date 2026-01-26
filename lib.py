@@ -18,7 +18,7 @@ def get_user_input(CATEGORIES, MENU):
 
         user_input = int(user_input)
 
-        if not user_input <= valid_choice:
+        if not user_input <= valid_choice and not user_input > 0:
             print("Invalid input")
             continue
 
@@ -121,6 +121,25 @@ def handle_expense_category(CATEGORIES, category_name, expense_dict):
         break
 
 
+def handle_user_choice(CATEGORIES, MENU):
+
+    categories = list(CATEGORIES.keys())
+    num_categories = len(CATEGORIES)
+    user_choice = get_user_input(CATEGORIES, MENU)
+
+    if user_choice <= num_categories:
+        category_name = categories[user_choice - 1]
+        handle_expense_category(CATEGORIES, category_name, MENU)
+
+    elif user_choice == (num_categories + 1):
+        pass
+
+    elif user_choice == (num_categories + 2):
+        sys.exit()
+
+    return category_name
+
+
 def generate_main_menu(CATEGORIES, MENU):
     """Generate the main menu for the user"""
 
@@ -146,7 +165,6 @@ def generate_expense_dict(CATEGORIES):
         subcategory["Total"] = 0
         expenses[k] = subcategory
 
-    print(expenses)
     return expenses
 
 
