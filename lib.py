@@ -1,3 +1,4 @@
+import sys
 
 MIN_AMOUNT = 1
 MAX_AMOUNT = 60000
@@ -87,7 +88,7 @@ def get_user_current_balance():
             print("Invalid input. Please enter a valid number")
 
 
-def handle_expense_category(CATEGORIES, category_name, expense_dict):
+def handle_expense_category(CATEGORIES, category_name, expenses):
     """adds expenses to a specific category"""
 
     while True:
@@ -112,16 +113,16 @@ def handle_expense_category(CATEGORIES, category_name, expense_dict):
 
         spendings = get_user_spending_input()
 
-        expense_dict[category_name][subcategory_name] += spendings
-        expense_dict[category_name]["Total"] += spendings
-        expense_dict["Grand_Total"] += spendings
+        expenses[category_name][subcategory_name] += spendings
+        expenses[category_name]["Total"] += spendings
+        expenses["Grand_Total"] += spendings
 
         print("Value added to your expenses!")
         print("-" * 50)
         break
 
 
-def handle_user_choice(CATEGORIES, MENU):
+def handle_user_choice(CATEGORIES, MENU, expenses):
 
     categories = list(CATEGORIES.keys())
     num_categories = len(CATEGORIES)
@@ -129,15 +130,13 @@ def handle_user_choice(CATEGORIES, MENU):
 
     if user_choice <= num_categories:
         category_name = categories[user_choice - 1]
-        handle_expense_category(CATEGORIES, category_name, MENU)
+        handle_expense_category(CATEGORIES, category_name, expenses)
 
     elif user_choice == (num_categories + 1):
-        pass
+        display_expenses(expenses)
 
     elif user_choice == (num_categories + 2):
         sys.exit()
-
-    return category_name
 
 
 def generate_main_menu(CATEGORIES, MENU):
@@ -166,6 +165,24 @@ def generate_expense_dict(CATEGORIES):
         expenses[k] = subcategory
 
     return expenses
+
+
+def display_expenses(expenses):
+    print("\n" + "-" * 50)
+    print(f"\n---Food expenses: {expenses['Food']["Total"]} dzd")
+    print(f"Money spent on sandwiches: {expenses['Food']["Sandwich"]} dzd")
+    print(f"Money spent on coffee: {expenses['Food']["Coffee"]} dzd")
+    print(f"Money spent on water: {expenses['Food']["Water"]} dzd")
+    print(f"\n---Transport expenses: {expenses['Transport']["Total"]} dzd")
+    print(f"Money spent on Bus : {expenses['Transport']["Bus"]} dzd")
+    print(f"Money spent on Taxi : {expenses['Transport']["Taxi"]} dzd")
+    print(f"Money spent on Vtc : {expenses['Transport']["Vtc"]} dzd")
+    print(f"\n---Chill day expenses: {expenses['Chill_day']["Total"]} dzd")
+    print(f"Money spent on dinner : {expenses['Chill_day']["Dinner"]} dzd")
+    print(
+        f"Money spent on Beach day : {expenses['Chill_day']["Beach_day"]} dzd")
+    print(f"Money spent on Gaming : {expenses['Chill_day']["Gaming"]} dzd")
+    print("-" * 50 + "\n")
 
 
 if __name__ == "__main__":
