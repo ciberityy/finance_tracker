@@ -1,6 +1,6 @@
 # Finance Tracker
 
-AI-powered personal finance tracker with Python
+finance tracker with Python
 
 ## Features
 - Track income and expenses
@@ -16,4 +16,4 @@ AI-powered personal finance tracker with Python
 
 ## Next Steps : 
 This project is being actively developed as part of my learning journey.
-Converting to Django web app with AI integration.
+
