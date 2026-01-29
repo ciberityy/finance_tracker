@@ -1,6 +1,6 @@
 # Finance Tracker
 
-A command-line personal finance tracker built with Python.
+AI-powered personal finance tracker with Python
 
 ## Features
 - Track income and expenses
