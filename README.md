@@ -14,7 +14,6 @@ A command-line personal finance tracker built with Python.
 - Python 3.13.2
 - Command-line interface
 
-## Next Steps
-- Converting to Django web application
-- Adding AI-powered categorization
-- Building analytics dashboard
+## Work in Progress
+This project is being actively developed as part of my learning journey.
+Next steps: Converting to Django web app with AI integration.
