@@ -14,6 +14,6 @@ AI-powered personal finance tracker with Python
 - Python 3.13.2
 - Command-line interface
 
-## Work in Progress
+## Next Steps : 
 This project is being actively developed as part of my learning journey.
-Next steps: Converting to Django web app with AI integration.
+Converting to Django web app with AI integration.
