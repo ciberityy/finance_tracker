@@ -3,6 +3,7 @@ import sys
 MIN_AMOUNT = 1
 MAX_AMOUNT = 60000
 MAX_INCOME = 1000000
+MIN_BALANCE = -100000
 
 
 def get_user_input(CATEGORIES, MENU):
@@ -78,9 +79,10 @@ def get_user_current_balance():
 
         try:
             current_balance = int(current_balance)
-            if current_balance < -100000:
+            if current_balance < MIN_BALANCE:
                 print('Balance seems unrealistic, try again.')
                 continue
+
             print("Balance Updated")
             return current_balance
 
