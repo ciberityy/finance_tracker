@@ -1,7 +1,6 @@
 import sys
 
 from models import Transaction
-from main import TransactionManager
 
 MIN_AMOUNT = 1
 MAX_AMOUNT = 60000

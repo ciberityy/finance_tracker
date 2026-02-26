@@ -22,6 +22,7 @@ class Transaction:
 
 class TransactionManager:
     def __init__(self):
+        """intitate an empty transactions list"""
         self.transactions = []
 
     def add_transaction(self, transaction):
@@ -34,6 +35,7 @@ class TransactionManager:
                    )
 
     def get_subcategory_total(self, category, subcategory):
+        """get the total of all the transactions matching the category and subcategory args"""
         return sum(t.amount for t in self.transactions if t.category == category and t.subcategory == subcategory)
 
     def get_total(self):
