@@ -4,3 +4,4 @@ __pycache__/
 .DS_Store
 expenses.json
 __pycache__/
+test_models.py

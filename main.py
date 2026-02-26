@@ -1,5 +1,5 @@
 from constants import MENU
-from tracker_lib import get_user_income_input, get_user_current_balance, handle_expense_category, generate_expense_dict, handle_user_choice
+from lib import get_user_income_input, get_user_current_balance, handle_expense_category, generate_expense_dict, handle_user_choice
 from models import TransactionManager
 
 
