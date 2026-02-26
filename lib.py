@@ -174,7 +174,7 @@ def display_expenses(manager, CATEGORIES):
     for category_name in CATEGORIES:
         category_total = manager.get_category_total(category_name)
 
-        print(f"\n--{category_name} expenses :{category_total} dzd")
+        print(f"\n--{category_name} expenses : {category_total} dzd")
 
         for subcategory_name in CATEGORIES[category_name]:
             subcategory_total = manager.get_subcategory_total(
