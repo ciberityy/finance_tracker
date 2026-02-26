@@ -136,7 +136,7 @@ def handle_user_choice(CATEGORIES, MENU, manager):
         handle_expense_category(manager, category_name, CATEGORIES)
 
     elif user_choice == (num_categories + 1):
-        display_expenses()
+        display_expenses(manager, CATEGORIES)
 
     elif user_choice == (num_categories + 2):
         sys.exit()
@@ -170,22 +170,17 @@ def generate_expense_dict(CATEGORIES):
     return expenses
 
 
-def display_expenses(expenses):
-    print("\n" + "-" * 50)
-    print(f"\n---Food expenses: {expenses['Food']["Total"]} dzd")
-    print(f"Money spent on sandwiches: {expenses['Food']["Sandwich"]} dzd")
-    print(f"Money spent on coffee: {expenses['Food']["Coffee"]} dzd")
-    print(f"Money spent on water: {expenses['Food']["Water"]} dzd")
-    print(f"\n---Transport expenses: {expenses['Transport']["Total"]} dzd")
-    print(f"Money spent on Bus : {expenses['Transport']["Bus"]} dzd")
-    print(f"Money spent on Taxi : {expenses['Transport']["Taxi"]} dzd")
-    print(f"Money spent on Vtc : {expenses['Transport']["Vtc"]} dzd")
-    print(f"\n---Chill day expenses: {expenses['Chill_day']["Total"]} dzd")
-    print(f"Money spent on dinner : {expenses['Chill_day']["Dinner"]} dzd")
-    print(
-        f"Money spent on Beach day : {expenses['Chill_day']["Beach_day"]} dzd")
-    print(f"Money spent on Gaming : {expenses['Chill_day']["Gaming"]} dzd")
-    print("-" * 50 + "\n")
+def display_expenses(manager, CATEGORIES):
+    for category_name in CATEGORIES:
+        category_total = manager.get_category_total(category_name)
+
+        print(f"\n--{category_name} expenses :{category_total} dzd")
+
+        for subcategory_name in CATEGORIES[category_name]:
+            subcategory_total = manager.get_subcategory_total(
+                category_name, subcategory_name)
+
+            print(f"\n--{subcategory_name} expenses : {subcategory_total}")
 
 
 if __name__ == "__main__":
