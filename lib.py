@@ -30,7 +30,7 @@ def get_user_input(CATEGORIES, MENU):
         return user_input
 
 
-def get_user_income_input():
+def get_user_income():
     """gets the user's income"""
 
     while True:
@@ -49,7 +49,7 @@ def get_user_income_input():
         return user_income
 
 
-def get_user_spending_input():
+def get_user_spending():
     """gets the amount spent by the user"""
 
     while True:
@@ -115,7 +115,7 @@ def handle_expense_category(manager, category_name, CATEGORIES):
 
         subcategory_name = subcategories[user_choice - 1]
 
-        spendings = get_user_spending_input()
+        spendings = get_user_spending()
 
         t = Transaction(spendings, category_name, subcategory_name)
         manager.add_transaction(t)
@@ -125,7 +125,7 @@ def handle_expense_category(manager, category_name, CATEGORIES):
         break
 
 
-def handle_user_choice(CATEGORIES, MENU, manager):
+def handle_user_choice(CATEGORIES, MENU, manager, current_balance, user_income):
 
     categories = list(CATEGORIES.keys())
     num_categories = len(CATEGORIES)
@@ -136,7 +136,7 @@ def handle_user_choice(CATEGORIES, MENU, manager):
         handle_expense_category(manager, category_name, CATEGORIES)
 
     elif user_choice == (num_categories + 1):
-        display_expenses(manager, CATEGORIES)
+        display_expenses(manager, CATEGORIES, current_balance, user_income)
 
     elif user_choice == (num_categories + 2):
         sys.exit()
@@ -170,7 +170,10 @@ def generate_expense_dict(CATEGORIES):
     return expenses
 
 
-def display_expenses(manager, CATEGORIES):
+def display_expenses(manager, CATEGORIES, current_balance, user_income):
+    print(f"--Your intial balance is : {current_balance} dzd")
+    print(f"--Your intial income is : {user_income} dzd")
+
     for category_name in CATEGORIES:
         category_total = manager.get_category_total(category_name)
 
@@ -181,6 +184,11 @@ def display_expenses(manager, CATEGORIES):
                 category_name, subcategory_name)
 
             print(f"\n--{subcategory_name} expenses : {subcategory_total} dzd")
+
+        print(f"current balance : {current_balance}")
+        print(f"category_total : {category_total}")
+        print(
+            f"\n--Your remaining balance is : {current_balance - category_total} dzd")
 
 
 if __name__ == "__main__":

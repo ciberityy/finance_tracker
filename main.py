@@ -1,5 +1,5 @@
 from constants import MENU
-from lib import get_user_income_input, get_user_current_balance, handle_expense_category, generate_expense_dict, handle_user_choice
+from lib import get_user_income, get_user_current_balance, handle_expense_category, generate_expense_dict, handle_user_choice
 from models import TransactionManager
 
 
@@ -7,7 +7,7 @@ def main():
     manager = TransactionManager()
 
     current_balance = get_user_current_balance()
-    user_income = get_user_income_input()
+    user_income = get_user_income()
 
     CATEGORIES = {
         "Food": ["Sandwich", "Coffee", "Water"],
@@ -20,7 +20,8 @@ def main():
     while True:
         print("\n" + "-" * 50)
 
-        user_input = handle_user_choice(CATEGORIES, MENU, manager)
+        user_input = handle_user_choice(
+            CATEGORIES, MENU, manager, current_balance, user_income)
 
         # remaining_income = user_income - expenses["Grand_Total"]
         # remaining_balance = current_balance - expenses["Grand_Total"]
