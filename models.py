@@ -1,4 +1,29 @@
+import sqlite3
 from datetime import datetime
+
+
+class Database:
+    def __init__(self, db_path):
+        self.db_path = db_path
+
+        conn = sqlite3.connect(db_path)
+        c = conn.cursor()
+
+        c.execute("""
+CREATE TABLE IF NOT EXISTS Transactions(
+        category TEXT,
+        subcategory TEXT,
+          amount INTEGER,
+          date TEXT,
+          id INTEGER PRIMARY KEY AUTOINCREMENT
+        )
+""")
+
+        conn.commit()
+        conn.close()
+
+    def save_transaction(self, transaction):
+        pass
 
 
 class Transaction:

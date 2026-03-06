@@ -5,3 +5,4 @@ __pycache__/
 expenses.json
 __pycache__/
 test_models.py
+*.db
