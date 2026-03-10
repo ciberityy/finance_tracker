@@ -4,6 +4,7 @@ from models import TransactionManager
 
 
 def main():
+
     manager = TransactionManager()
 
     current_balance = get_user_current_balance()
@@ -18,7 +19,6 @@ def main():
     # expenses = generate_expense_dict(CATEGORIES)
 
     while True:
-        print("\n" + "-" * 50)
 
         user_input = handle_user_choice(
             CATEGORIES, MENU, manager, current_balance, user_income)

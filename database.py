@@ -1,4 +1,5 @@
 import sqlite3
+from models import Transaction
 
 
 class Database:
@@ -10,12 +11,12 @@ class Database:
 
         c.execute("""
 CREATE TABLE IF NOT EXISTS Transactions(
-        id INTEGER PRIMARY KEY AUTOINCREMENT
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         category TEXT,
         subcategory TEXT,
-          amount INTEGER,
-          date TEXT,
-          )
+        amount INTEGER,
+        date TEXT
+        )
 """)
         conn.commit()
         conn.close()
@@ -35,3 +36,19 @@ CREATE TABLE IF NOT EXISTS Transactions(
 
         conn.commit()
         conn.close()
+
+    def load_transactions(self):
+
+        conn = sqlite3.connect(self.db_path)
+        c = conn.cursor()
+
+        query = "SELECT * FROM Transactions"
+
+        c.execute(query)
+
+        transactions = c.fetchall()
+
+        conn.commit()
+        conn.close()
+
+        return transactions
