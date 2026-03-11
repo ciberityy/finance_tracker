@@ -1,4 +1,5 @@
 from datetime import datetime
+from database import Database
 
 
 class Transaction:
@@ -23,7 +24,9 @@ class Transaction:
 class TransactionManager:
     def __init__(self):
         """intitate an empty transactions list"""
-        self.transactions = []
+        db = Database("database.db")
+
+        raw_transactions = db.load_transactions()
 
     def add_transaction(self, transaction):
         """append a transaction into the list of transactions"""
