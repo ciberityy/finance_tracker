@@ -1,6 +1,0 @@
-MENU = ["My expenses", "Exit"]
-
-
-
-
-

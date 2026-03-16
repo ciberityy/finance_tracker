@@ -22,15 +22,23 @@ class Transaction:
 
 
 class TransactionManager:
+
     def __init__(self):
         """intitate an empty transactions list"""
-        db = Database("database.db")
 
-        raw_transactions = db.load_transactions()
+        self.db = Database("database.db")
+
+        raw_transactions = self.db.load_transactions()
+
+        self.transactions = [Transaction(
+            t[3], t[1], t[2], t[4]) for t in raw_transactions]
 
     def add_transaction(self, transaction):
         """append a transaction into the list of transactions"""
+
         self.transactions.append(transaction)
+
+        self.db.save_transaction(transaction)
 
     def get_category_total(self, category):
         """calculate total for a specific category"""

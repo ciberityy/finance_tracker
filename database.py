@@ -1,5 +1,4 @@
 import sqlite3
-from models import Transaction
 
 
 class Database:
@@ -35,20 +34,21 @@ CREATE TABLE IF NOT EXISTS Transactions(
         c.execute(query, values)
 
         conn.commit()
+
         conn.close()
 
     def load_transactions(self):
 
         conn = sqlite3.connect(self.db_path)
+
         c = conn.cursor()
 
-        query = "SELECT * FROM Transactions"
+        query = 'SELECT * FROM Transactions'
 
         c.execute(query)
 
         transactions = c.fetchall()
 
-        conn.commit()
         conn.close()
 
         return transactions

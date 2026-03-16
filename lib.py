@@ -1,11 +1,13 @@
 import sys
 
+from database import Database
 from models import Transaction
 
 MIN_AMOUNT = 1
 MAX_AMOUNT = 60000
 MAX_INCOME = 1000000
 MIN_BALANCE = -100000
+MENU = ["My expenses", "Exit"]
 
 
 def get_user_input(CATEGORIES, MENU):
@@ -46,6 +48,8 @@ def get_user_income():
             print("Invalid amount try again.")
             continue
 
+        print("Income Updated.\n")
+
         return user_income
 
 
@@ -85,7 +89,8 @@ def get_user_current_balance():
                 print('Balance seems unrealistic, try again.')
                 continue
 
-            print("Balance Updated")
+            print("Balance Updated.\n")
+
             return current_balance
 
         except ValueError:
@@ -117,7 +122,7 @@ def handle_expense_category(manager, category_name, CATEGORIES):
 
         spendings = get_user_spending()
 
-        t = Transaction(spendings, category_name, subcategory_name)
+        t = Transaction(spendings, category_name, subcategory_name, date=None)
         manager.add_transaction(t)
 
         print("Value added to your expenses!")
@@ -158,16 +163,6 @@ def generate_main_menu(CATEGORIES, MENU):
     menu += f"Your choice : "
 
     return menu
-
-
-def generate_expense_dict(CATEGORIES):
-    expenses = {"Grand_Total": 0}
-    for k, v in CATEGORIES.items():
-        subcategory = {item: 0 for item in v}
-        subcategory["Total"] = 0
-        expenses[k] = subcategory
-
-    return expenses
 
 
 def display_expenses(manager, CATEGORIES, current_balance, user_income):

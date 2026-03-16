@@ -9,3 +9,5 @@ db.save_transaction(transaction)
 
 print("Saved successfuly !")
 print(f"check if test_database.py was created")
+
+db.load_transactions()
