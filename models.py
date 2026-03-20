@@ -1,5 +1,7 @@
 from datetime import datetime
+
 from database import Database
+from user_io import get_user_balance, get_user_income
 
 
 class Transaction:
@@ -33,6 +35,18 @@ class TransactionManager:
         self.transactions = [Transaction(
             t[3], t[1], t[2], t[4]) for t in raw_transactions]
 
+        user_settings = self.db.load_user_data()
+
+        if not user_settings:
+            self.balance = get_user_balance()
+            self.income = get_user_income()
+
+        else:
+            self.income = user_settings[1]
+            self.balance = user_settings[2]
+
+        self.db.save_user_data(self.income, self.balance)
+
     def add_transaction(self, transaction):
         """append a transaction into the list of transactions"""
 
@@ -55,3 +69,7 @@ class TransactionManager:
     def get_all(self):
         """returns all transactions"""
         return self.transactions
+
+    def save_user_info(self, income, balance):
+
+        self.db.save_user_data(income, balance)

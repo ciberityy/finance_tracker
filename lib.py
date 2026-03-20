@@ -1,12 +1,10 @@
 import sys
 
-from database import Database
 from models import Transaction
 
 MIN_AMOUNT = 1
 MAX_AMOUNT = 60000
-MAX_INCOME = 1000000
-MIN_BALANCE = -100000
+
 MENU = ["My expenses", "Exit"]
 
 
@@ -19,82 +17,37 @@ def get_user_input(CATEGORIES, MENU):
         user_input = input(generate_main_menu(CATEGORIES, MENU))
 
         if not user_input.isdigit():
-            print("Invalid input.")
+            print("\nInvalid input.\n")
             continue
 
         user_input = int(user_input)
 
-        if not user_input <= valid_choice and not user_input > 0:
-            print("Invalid input")
+        if not user_input <= valid_choice or not user_input > 0:
+            print("\nInvalid input.\n")
             continue
 
         print("-" * 50)
         return user_input
 
 
-def get_user_income():
-    """gets the user's income"""
-
-    while True:
-        user_income = input("Type your income: ")
-
-        if not user_income.isdigit():
-            print("Invalid amount.")
-            continue
-
-        user_income = int(user_income)
-
-        if not (MIN_AMOUNT < user_income < MAX_INCOME):
-            print("Invalid amount try again.")
-            continue
-
-        print("Income Updated.\n")
-
-        return user_income
-
-
 def get_user_spending():
     """gets the amount spent by the user"""
 
     while True:
-        spending_amout = input("Enter an amount : ")
+        spending_amount = input("Enter an amount : ")
 
-        if not spending_amout.isdigit():
+        if not spending_amount.isdigit():
             print("Invalid amount.")
             continue
 
-        spending_amout = int(spending_amout)
+        spending_amount = int(spending_amount)
 
-        if not (MIN_AMOUNT < spending_amout <= MAX_AMOUNT):
+        if not (MIN_AMOUNT < spending_amount <= MAX_AMOUNT):
             print("Invalid amount.")
             continue
 
         print("-" * 50)
-        return spending_amout
-
-
-def get_user_current_balance():
-    """gets the user's current balance"""
-
-    while True:
-        current_balance = input("Enter your current balance : ")
-
-        if not current_balance:
-            print("Please enter a value.")
-            continue
-
-        try:
-            current_balance = int(current_balance)
-            if current_balance < MIN_BALANCE:
-                print('Balance seems unrealistic, try again.')
-                continue
-
-            print("Balance Updated.\n")
-
-            return current_balance
-
-        except ValueError:
-            print("Invalid input. Please enter a valid number")
+        return spending_amount
 
 
 def handle_expense_category(manager, category_name, CATEGORIES):

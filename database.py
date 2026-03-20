@@ -17,7 +17,16 @@ CREATE TABLE IF NOT EXISTS Transactions(
         date TEXT
         )
 """)
+        c.execute("""
+CREATE TABLE IF NOT EXISTS User_data(
+                  id INTEGER PRIMARY KEY, 
+                  income INTEGER,
+                  balance INTEGER
+                  )
+""")
+
         conn.commit()
+
         conn.close()
 
     def save_transaction(self, transaction):
@@ -52,3 +61,38 @@ CREATE TABLE IF NOT EXISTS Transactions(
         conn.close()
 
         return transactions
+
+    def save_user_data(self, income, balance):
+
+        conn = sqlite3.connect(self.db_path)
+
+        c = conn.cursor()
+
+        query = "INSERT OR REPLACE INTO User_data (id, income, balance) VALUES (?, ?, ?)"
+        values = (1, income, balance)
+
+        c.execute(query, values)
+
+        conn.commit()
+
+        conn.close()
+
+    def load_user_data(self):
+
+        conn = sqlite3.connect(self.db_path)
+
+        c = conn.cursor()
+
+        query = "SELECT * FROM User_data"
+
+        c.execute(query)
+
+        user_data = c.fetchone()
+
+        conn.close()
+
+        if user_data:
+            return user_data
+
+        else:
+            return None
