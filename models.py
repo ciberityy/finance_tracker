@@ -5,11 +5,12 @@ from user_io import get_user_balance, get_user_income
 
 
 class Transaction:
-    def __init__(self, amount, category, subcategory, date=None):
+    def __init__(self, amount, category, subcategory, date=None, id=None):
         self.amount = amount
         self.category = category
         self.subcategory = subcategory
         self.date = date or datetime.now()
+        self.id = id
 
     def __repr__(self) -> str:
         return (f"Transaction details :\nAmount : {self.amount}\nCategory : {self.category}\nSubcategory : {self.subcategory}\nDate : {self.date}")
@@ -19,7 +20,8 @@ class Transaction:
             "amount": self.amount,
             "category": self.category,
             "subcategory": self.subcategory,
-            "date": self.date
+            "date": self.date,
+            "id": self.id
         }
 
 
@@ -33,7 +35,7 @@ class TransactionManager:
         raw_transactions = self.db.load_transactions()
 
         self.transactions = [Transaction(
-            t[3], t[1], t[2], t[4]) for t in raw_transactions]
+            t[3], t[1], t[2], t[4], t[0]) for t in raw_transactions]
 
         user_settings = self.db.load_user_data()
 
@@ -48,11 +50,18 @@ class TransactionManager:
         self.db.save_user_data(self.income, self.balance)
 
     def add_transaction(self, transaction):
-        """append a transaction into the list of transactions"""
+        """append a transaction into the list of transactions and save it into the db"""
 
         self.transactions.append(transaction)
 
         self.db.save_transaction(transaction)
+
+    def delete_transaction(self, transaction):
+        """remove a transaction from the list of transactions and delete it from the db"""
+
+        self.transactions.remove(transaction)
+
+        self.db.delete_transaction(transaction.id)
 
     def get_category_total(self, category):
         """calculate total for a specific category"""
@@ -71,5 +80,6 @@ class TransactionManager:
         return self.transactions
 
     def save_user_info(self, income, balance):
+        """saves the users related info"""
 
         self.db.save_user_data(income, balance)

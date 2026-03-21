@@ -46,6 +46,21 @@ CREATE TABLE IF NOT EXISTS User_data(
 
         conn.close()
 
+    def delete_transaction(self, primary_key):
+
+        conn = sqlite3.connect(self.db_path)
+
+        c = conn.cursor()
+
+        query = "DELETE FROM Transactions WHERE id = (?)"
+        values = (primary_key,)
+
+        c.execute(query, values)
+
+        conn.commit()
+
+        conn.close()
+
     def load_transactions(self):
 
         conn = sqlite3.connect(self.db_path)
