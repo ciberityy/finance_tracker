@@ -1,6 +1,6 @@
 # Finance Tracker
 
-finance tracker with Python
+This is a personal finance tracker designed to help you understand your spending habits. You can easily add and categorize your expenses, then view detailed summaries of where your money goes, as well as track your remaining balance and income.
 
 ## Features
 - Track income and expenses
@@ -8,12 +8,13 @@ finance tracker with Python
 - View spending summary
 
 ## Current Status
-🚧 Work in Progress - Learning Python fundamentals
+CLI version in progress — adding transaction management (edit/delete) and improving menu navigation before moving to Django. 
 
 ## Tech Stack
-- Python 3.13.2
+- Python 3.14.3
+- Database: SQLite
 - Command-line interface
 
 ## Next Steps : 
-This project is being actively developed as part of my learning journey.
+Building this into a full Django web application with PostgreSQL, documenting the journey publicly on LinkedIn and X.
 
