@@ -5,7 +5,7 @@ from models import Transaction
 MIN_AMOUNT = 1
 MAX_AMOUNT = 60000
 
-MENU = ["My expenses", "Exit"]
+MENU = ["Manage transactions", "My expenses", "Exit"]
 
 
 def get_user_input(CATEGORIES, MENU):
@@ -50,7 +50,7 @@ def get_user_spending():
         return spending_amount
 
 
-def handle_expense_category(manager, category_name, CATEGORIES):
+def add_expense(manager, category_name, CATEGORIES):
     """adds expenses to a specific category"""
 
     while True:
@@ -75,7 +75,8 @@ def handle_expense_category(manager, category_name, CATEGORIES):
 
         spendings = get_user_spending()
 
-        t = Transaction(spendings, category_name, subcategory_name, date=None)
+        t = Transaction(spendings, category_name,
+                        subcategory_name, date=None, id=None)
         manager.add_transaction(t)
 
         print("Value added to your expenses!")
@@ -91,12 +92,15 @@ def handle_user_choice(CATEGORIES, MENU, manager, current_balance, user_income):
 
     if user_choice <= num_categories:
         category_name = categories[user_choice - 1]
-        handle_expense_category(manager, category_name, CATEGORIES)
+        add_expense(manager, category_name, CATEGORIES)
 
     elif user_choice == (num_categories + 1):
-        display_expenses(manager, CATEGORIES, current_balance, user_income)
+        pass
 
     elif user_choice == (num_categories + 2):
+        display_expenses(manager, CATEGORIES, current_balance, user_income)
+
+    elif user_choice == (num_categories + 3):
         sys.exit()
 
 
