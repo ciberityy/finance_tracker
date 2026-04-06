@@ -1,33 +1,41 @@
 import sys
+import time
 
 from models import Transaction
 
 MIN_AMOUNT = 1
 MAX_AMOUNT = 60000
 
-MENU = ["Manage transactions", "My expenses", "Exit"]
+MAIN_MENU = ["Manage transactions", "My expenses", "Exit"]
+TRANSACTIONS_MENU = ["Add a transaction", "Delete a transaction", "Go back to the main menu"]
 
 
-def get_user_input(CATEGORIES, MENU):
-    """user chooses a category to add expenses to"""
-
-    valid_choice = len(CATEGORIES) + len(MENU)
+def get_and_validate_user_input(menu_prompt, num_options):
+    """Displays a menu prompt and returns a validated, 0-indexed integer choice.
+    Handles invalid input (non-digits, out of range)."""
 
     while True:
-        user_input = input(generate_main_menu(CATEGORIES, MENU))
 
-        if not user_input.isdigit():
-            print("\nInvalid input.\n")
+        try:
+            user_input_str = input(menu_prompt)
+        
+        except KeyboardInterrupt:
+            print("\nExiting program...")
+            sys.exit(0)
+
+
+        if not user_input_str.isdigit():
+            print("\nInvalid input. Please enter a number.\n")
+            continue                        
+
+        user_input_int = int(user_input_str)
+
+        if not 1 <= user_input_int <= num_options:
+            print(f"\nInvalid input. Please enter a number between 1 and {num_options}.\n")
             continue
 
-        user_input = int(user_input)
-
-        if not user_input <= valid_choice or not user_input > 0:
-            print("\nInvalid input.\n")
-            continue
-
-        print("-" * 50)
-        return user_input
+        return user_input_int - 1
+    
 
 
 def get_user_spending():
@@ -83,42 +91,120 @@ def add_expense(manager, category_name, CATEGORIES):
         print("-" * 50)
         break
 
+def delete_expense(manager):
+    """Guides the user through selecting and deleting a transaction.
+    Displays a numbered list of transactions and handles user input."""
+    
+    transactions_list = manager.get_all()
 
-def handle_user_choice(CATEGORIES, MENU, manager, current_balance, user_income):
+    if not transactions_list:
+        print("No transactions recorded yet to delete.\n")
+        print("-" * 50)
+        return
 
-    categories = list(CATEGORIES.keys())
-    num_categories = len(CATEGORIES)
-    user_choice = get_user_input(CATEGORIES, MENU)
+    menu_list_prompt = "Select a transaction to delete (or type 0 to cancel):\n\n"
+    
+    for i, transaction in enumerate(transactions_list, 1):
+        menu_list_prompt += f"{i}. {transaction.__repr__()}\n"
 
-    if user_choice <= num_categories:
-        category_name = categories[user_choice - 1]
-        add_expense(manager, category_name, CATEGORIES)
+    menu_list_prompt += "\nYour choice :  "   
 
-    elif user_choice == (num_categories + 1):
-        pass
+    user_input = get_and_validate_user_input(menu_list_prompt, len(transactions_list) + 1)
 
-    elif user_choice == (num_categories + 2):
-        display_expenses(manager, CATEGORIES, current_balance, user_income)
+    if user_input == -1:
+        print("\nTransaction deletion canceled.\n")
+        return
 
-    elif user_choice == (num_categories + 3):
-        sys.exit()
+    transaction_to_delete = transactions_list[user_input]
+    manager.delete_transaction(transaction_to_delete)
+
+    print(f"\nTransaction : 'CATEGORY : {transaction_to_delete.category} AMOUNT : {transaction_to_delete.amount} dzd' deleted successfully!\n")
+
+    
 
 
-def generate_main_menu(CATEGORIES, MENU):
-    """Generate the main menu for the user"""
+def handle_user_choice(CATEGORIES, MAIN_MENU, TRANSACTIONS_MENU, manager, current_balance, user_income):
+        """Handles the user's main menu choice and directs to appropriate sub-menus or actions.
+    This function orchestrates the flow of the application based on user input."""
+        
+        categories = list(CATEGORIES.keys())                                                            
+        
+        main_menu_prompt = generate_main_menu(MAIN_MENU) 
+        transactions_menu_prompt = generate_transactions_menu(TRANSACTIONS_MENU)
+        categories_menu_prompt = generate_categories_menu(CATEGORIES)
 
-    number_of_categories = len(CATEGORIES)
+        user_input = get_and_validate_user_input(main_menu_prompt, len(MAIN_MENU))
+
+        if user_input == 0:  #  if user input = Manage transactions 
+            transactions_menu_choice = get_and_validate_user_input(transactions_menu_prompt, len(TRANSACTIONS_MENU))
+
+            if transactions_menu_choice == 0:  # if user_input = Add a transaction 
+                
+                categories_menu_choice = get_and_validate_user_input(categories_menu_prompt, len(CATEGORIES))
+
+                category_name = categories[categories_menu_choice]
+                add_expense(manager, category_name, CATEGORIES) 
+
+            elif transactions_menu_choice == 1:  # if user_input = Delete a transaction
+                delete_expense(manager)
+
+            elif transactions_menu_choice == 2:
+                pass
+
+        elif user_input == 1:  # User chose "My expenses"
+            display_expenses(manager, CATEGORIES, current_balance, user_income)
+        
+        elif user_input == 2:   # User chose "Exit"
+            print("Exiting program...")
+            time.sleep(0.5)
+            
+            sys.exit()
+                                                                                            
+
+
+def generate_transactions_menu(TRANSACTIONS_MENU):
+    """Generates the menu prompt string for managing transactions
+    (Add, Delete, Go back)."""
+
+    menu = "\n"
+    for i, option_item in enumerate(TRANSACTIONS_MENU, 1):
+        menu += f"{i}. {option_item}\n"
+
+    menu += "\nYour choice : "
+
+    return menu
+
+
+def generate_categories_menu(CATEGORIES):
+    """Generate the menu of categories"""
 
     menu = ""
-    menu += f"Choose a category:\n\n"
+    menu += f"\nChoose a category:\n\n"
 
     for index, category in enumerate(CATEGORIES.keys(), 1):
         menu += f"{index}. {category}\n"
 
-    for i, item in enumerate(MENU, number_of_categories + 1):
-        menu += f"{i}. {item}\n"
-    menu += f"Your choice : "
+    menu += "Your choice : "
+    
+    return menu
 
+def generate_main_menu(MAIN_MENU):
+    """generate the main menu"""
+    
+    print("\n" + "-" * 47)
+    print("MAIN MENU".center(47))
+    print("-" * 47 + "")
+    
+    menu =""
+    menu += "\nSelect an option :\n\n"
+    
+
+    for index, menu_item in enumerate(MAIN_MENU, 1):
+        menu += f"{index}. {menu_item}\n"
+    
+    menu += "\nYour choice : "
+
+    
     return menu
 
 
@@ -207,6 +293,8 @@ def display_expenses(manager, CATEGORIES, current_balance, user_income):
     line = f"{label} {dots} {amount}"
 
     print(line)
+
+    print("-" * 47)
 
 
 if __name__ == "__main__":

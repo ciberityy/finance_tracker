@@ -1,4 +1,4 @@
-from lib import MENU, handle_user_choice
+from lib import MAIN_MENU, TRANSACTIONS_MENU, handle_user_choice
 from models import TransactionManager
 
 
@@ -15,7 +15,7 @@ def main():
     while True:
 
         user_input = handle_user_choice(
-            CATEGORIES, MENU, manager, manager.balance, manager.income)
+            CATEGORIES, MAIN_MENU,TRANSACTIONS_MENU, manager, manager.balance, manager.income)
 
 
 if __name__ == "__main__":
