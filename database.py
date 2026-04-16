@@ -30,20 +30,24 @@ CREATE TABLE IF NOT EXISTS User_data(
         conn.close()
 
     def save_transaction(self, transaction):
+        """
+        Saves a new transaction to the database.
 
+        Args:
+            transaction (Transaction): The Transaction object to save.
+        """
         conn = sqlite3.connect(self.db_path)
         c = conn.cursor()
 
-        query = "INSERT INTO Transactions (category, subcategory, amount, date) VALUES (?, ?, ?, ?)"
-        values = (transaction.category,
-                  transaction.subcategory,
-                  transaction.amount,
-                  transaction.date)
+            query = "INSERT INTO Transactions (category, subcategory, amount, date) VALUES (?, ?, ?, ?)"
+            values = (transaction.category,
+                      transaction.subcategory,
+                      transaction.amount,
+                      transaction.date)
 
         c.execute(query, values)
 
         conn.commit()
-
         conn.close()
 
     def delete_transaction(self, primary_key):
@@ -111,3 +115,4 @@ CREATE TABLE IF NOT EXISTS User_data(
 
         else:
             return None
+
