@@ -1,8 +1,7 @@
-import sys
-import time
 from src.constants import MIN_AMOUNT, MAX_AMOUNT, MAIN_MENU, TRANSACTIONS_MENU, \
     MANAGE_TRANSACTIONS_CHOICE, MY_EXPENSES_CHOICE, EXIT_CHOICE, \
-    ADD_TRANSACTION_CHOICE, DELETE_TRANSACTION_CHOICE, GO_BACK_CHOICE, MENU_BORDER_CHAR_SECONDARY
+    ADD_TRANSACTION_CHOICE, DELETE_TRANSACTION_CHOICE, GO_BACK_CHOICE, \
+    MENU_BORDER_CHAR_SECONDARY, TRANSACTION_DISPLAY_WIDTH
 from src.menu import generate_main_menu, generate_transactions_menu, generate_categories_menu, display_expenses
 from models import Transaction
 
@@ -54,7 +53,7 @@ def get_user_spending():
                 print(f"Invalid amount. Please enter a number between {MIN_AMOUNT + 1} and {MAX_AMOUNT}.")
                 continue
             
-            print(MENU_BORDER_CHAR_SECONDARY * 50)
+            print(MENU_BORDER_CHAR_SECONDARY * TRANSACTION_DISPLAY_WIDTH)
             return spending_amount
         except ValueError:
             print("Invalid amount. Please enter a valid number.")
@@ -97,7 +96,7 @@ def add_expense(manager, category_name, CATEGORIES):
         manager.add_transaction(transaction)
 
         print("Value added to your expenses!")
-        print(MENU_BORDER_CHAR_SECONDARY * 50)
+        print(MENU_BORDER_CHAR_SECONDARY * TRANSACTION_DISPLAY_WIDTH)
         break
 
 def delete_expense(manager):
@@ -112,7 +111,7 @@ def delete_expense(manager):
 
     if not transactions_list:
         print("No transactions recorded yet to delete.\n")
-        print(MENU_BORDER_CHAR_SECONDARY * 50)
+        print(MENU_BORDER_CHAR_SECONDARY * TRANSACTION_DISPLAY_WIDTH)
         return
 
     menu_list_prompt = "Select a transaction to delete (or type 0 to cancel):\n\n"
@@ -133,8 +132,9 @@ def delete_expense(manager):
     manager.delete_transaction(transaction_to_delete)
 
     print(f"\nTransaction : 'CATEGORY : {transaction_to_delete.category} AMOUNT : {transaction_to_delete.amount} dzd' deleted successfully!\n")
-    print(MENU_BORDER_CHAR_SECONDARY * 50)
+    print(MENU_BORDER_CHAR_SECONDARY * TRANSACTION_DISPLAY_WIDTH)
     
+
 def handle_user_choice(CATEGORIES, manager, current_balance, user_income):
     """
     Handles the user's main menu choice and directs to appropriate sub-menus or actions.
@@ -150,6 +150,7 @@ def handle_user_choice(CATEGORIES, manager, current_balance, user_income):
         int: The user's choice from the main menu (0-indexed).
     """
     categories_list = list(CATEGORIES.keys())
+    
     main_menu_prompt = generate_main_menu(MAIN_MENU) 
     transactions_menu_prompt = generate_transactions_menu(TRANSACTIONS_MENU)
     categories_menu_prompt = generate_categories_menu(CATEGORIES)

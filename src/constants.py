@@ -3,11 +3,15 @@
 MIN_AMOUNT = 1
 MAX_AMOUNT = 60000
 
+MIN_BALANCE = -100000
+MAX_INCOME = 1000000
+
 MAIN_MENU = ["Manage transactions", "My expenses", "Exit"]
 TRANSACTIONS_MENU = ["Add a transaction", "Delete a transaction", "Go back to the main menu"]
 
 # Menu display constants
 MENU_WIDTH = 47
+TRANSACTION_DISPLAY_WIDTH = 50
 MENU_BORDER_CHAR_PRIMARY = "="
 MENU_BORDER_CHAR_SECONDARY = "-"
 
@@ -19,3 +23,4 @@ EXIT_CHOICE = 2
 ADD_TRANSACTION_CHOICE = 0
 DELETE_TRANSACTION_CHOICE = 1
 GO_BACK_CHOICE = 2
+
