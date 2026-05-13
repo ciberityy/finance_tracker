@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from user_io import get_user_balance, get_user_income
-from database import Database
+from database.database import Database
 
 class Transaction:
     """
@@ -46,7 +46,7 @@ class TransactionManager:
         Initializes the TransactionManager, loads existing transactions and user data from the database.
         If no user data exists, it prompts the user for income and balance.
         """
-        self.db = Database("database.db")
+        self.db = Database("database/database.db")
 
         raw_transactions = self.db.load_transactions()
 

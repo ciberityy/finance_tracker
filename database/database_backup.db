@@ -1,3 +1,5 @@
+import sqlite3
+
 class Database:
     """
     Handles all database interactions for transactions and user data using SQLite.
@@ -14,9 +16,11 @@ class Database:
         conn = sqlite3.connect(self.db_path)
         c = conn.cursor()
 
+        
         c.execute("""
 CREATE TABLE IF NOT EXISTS Transactions(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
+        category_id INTEGER
         category TEXT,
         subcategory TEXT,
         amount INTEGER,
