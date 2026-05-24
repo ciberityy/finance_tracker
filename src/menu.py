@@ -61,7 +61,7 @@ def generate_main_menu(main_menu_options):
     return menu_string
 
 
-def display_expenses(manager, categories_data, current_balance, user_income):
+def display_expenses(manager, CATEGORIES, current_balance, user_income):
     """
     Displays a detailed summary of expenses by category and subcategory,
     along with total expenses, current balance, and remaining income.
@@ -93,21 +93,21 @@ def display_expenses(manager, categories_data, current_balance, user_income):
     print(line2)
     print()
 
-    for category_name in categories_data:
-        category_total = manager.get_category_total(category_name)
+    for category_name in CATEGORIES:
+        category_total = manager.get_category_total(category_name) ######################
         category_amount_str = f"{category_total:,} dzd"
         num_dots_category = MENU_WIDTH - len(category_name) - len(category_amount_str) - 2
         dots_category = '.' * num_dots_category
         print(f"{category_name} {dots_category} {category_amount_str}")
 
-        for subcategory_name in categories_data[category_name]:
-            subcategory_total = manager.get_subcategory_total(category_name, subcategory_name)
+        for subcategory_name in CATEGORIES[category_name]:
+            subcategory_total = manager.get_subcategory_total(category_name, subcategory_name) #####################
             subcategory_amount_str = f"{subcategory_total:,} dzd"
             num_dots_subcategory = MENU_WIDTH - len(subcategory_name) - len(subcategory_amount_str) - 2
             dots_subcategory = "." * num_dots_subcategory
             print(f"  {subcategory_name} {dots_subcategory} {subcategory_amount_str}")
 
-    grand_total = manager.get_total()
+    grand_total = manager.get_total() ####################
     label_total_expenses = "TOTAL EXPENSES"
     amount_total = f"{grand_total:,} dzd"
 

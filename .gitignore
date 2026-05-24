@@ -6,3 +6,5 @@ expenses.json
 __pycache__/
 test_models.py
 venv/
+.continue/
+test_category_total.py

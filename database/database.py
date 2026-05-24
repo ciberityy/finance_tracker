@@ -151,9 +151,11 @@ CREATE TABLE IF NOT EXISTS User_data(
         """
         conn = sqlite3.connect(self.db_path)
         c = conn.cursor()
+        
         query = "SELECT id FROM categories WHERE name = ? AND parent_id = (" \
         "SELECT id FROM categories WHERE name = ?)"
         values = (subcategory_name, category_name) 
+        
         c.execute(query, values)
         row = c.fetchone()
         
@@ -163,6 +165,31 @@ CREATE TABLE IF NOT EXISTS User_data(
         
         return row[0]
 
+
+    def get_category_total(self, category):
+        
+        conn = sqlite3.connect(self.db_path)
+        c = conn.cursor()
+
+        query = "SELECT SUM(amount) \
+        FROM Transactions \
+        WHERE category_id IN ( \
+            SELECT id from categories \
+            WHERE parent_id = (SELECT id FROM categories WHERE name = ?) \
+            );"
+        values = (category,)
+
+        c.execute(query, values)
+        category_total = c.fetchone()
+
+        conn.close()
+
+        if category_total is None or category_total[0] is None:
+            return 0 
+        
+        return category_total[0]
+            
+        
 
 
 

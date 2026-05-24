@@ -88,16 +88,9 @@ class TransactionManager:
         self.db.delete_transaction(transaction.id)
 
     def get_category_total(self, category):
-        """
-        Calculates the total amount spent for a specific category.
-
-        Args:
-            category (str): The name of the category.
-
-        Returns:
-            int: The total amount spent in the specified category.
-        """
-        return sum(t.amount for t in self.transactions if t.category == category)
+        """Return total spending for a top‑level category (including all subcategories)"""
+        
+        return self.db.get_category_total(category)
 
     def get_subcategory_total(self, category, subcategory):
         """
