@@ -189,6 +189,34 @@ CREATE TABLE IF NOT EXISTS User_data(
         
         return category_total[0]
             
+    
+    def get_category_tree(self):
+        conn = sqlite3.connect(self.db_path)
+        c = conn.cursor()
+
+        query = "SELECT id, name FROM categories WHERE parent_id IS NULL"
+        
+        c.execute(query,)
+
+        categories = c.fetchall()
+
+        categories_dict = {}
+
+        for category in categories:
+            query = "SELECT name FROM categories WHERE parent_id = (?)"
+            values = (category[0],)
+            
+            c.execute(query, values)
+
+            subcategories_list_of_tuples = c.fetchall()
+
+            subcategories_list = [name for (name,) in subcategories_list_of_tuples]
+
+            categories_dict[category[1]] = subcategories_list
+
+            print("CATEGORIES DICT:", categories_dict)
+
+            
         
 
 

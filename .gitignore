@@ -8,3 +8,4 @@ test_models.py
 venv/
 .continue/
 test_category_total.py
+tests/test_category_tree.py
