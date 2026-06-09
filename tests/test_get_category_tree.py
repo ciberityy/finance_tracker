@@ -1,4 +1,3 @@
-import sqlite3
 from database.database import Database
 
 db = Database("database/database.db")

@@ -48,11 +48,6 @@ class TransactionManager:
         """
         self.db = Database("database/database.db")
 
-        raw_transactions = self.db.load_transactions()
-
-        self.transactions = [Transaction(
-            t[3], t[1], t[2], t[4], t[0]) for t in raw_transactions]
-
         user_settings = self.db.load_user_data()
 
         if not user_settings:
@@ -72,8 +67,6 @@ class TransactionManager:
         Args:
             transaction (Transaction): The Transaction object to add.
         """
-        self.transactions.append(transaction)
-
         self.db.save_transaction(transaction)
 
     def delete_transaction(self, transaction):
@@ -83,16 +76,14 @@ class TransactionManager:
         Args:
             transaction (Transaction): The Transaction object to delete.
         """
-        self.transactions.remove(transaction)
-
         self.db.delete_transaction(transaction.id)
 
     def get_category_total(self, category):
-        """Return total spending for a top‑level category (including all subcategories)"""
+        """Return total spending for a top-level category (including all subcategories)"""
         
         return self.db.get_category_total(category)
 
-    def get_subcategory_total(self, category, subcategory):
+    def get_subcategory_total(self, category_name, subcategory_name):
         """
         Calculates the total amount spent for a specific subcategory within a category.
 
@@ -101,9 +92,9 @@ class TransactionManager:
             subcategory (str): The name of the subcategory.
 
         Returns:
-            int: The total amount spent in the specified subcategory.
+            int: The total amount spent in the specified subcategory.s
         """
-        return sum(t.amount for t in self.transactions if t.category == category and t.subcategory == subcategory)
+        return self.db.get_subcategory_total(category_name, subcategory_name)
 
     def get_total(self):
         """
@@ -112,7 +103,7 @@ class TransactionManager:
         Returns:
             int: The sum of amounts of all transactions.
         """
-        return sum([t.amount for t in self.transactions])
+        return self.db.get_total_expenses()
 
     def get_all(self):
         """
@@ -121,7 +112,11 @@ class TransactionManager:
         Returns:
             list: A list of all Transaction objects.
         """
-        return self.transactions
+        raw_transactions = self.db.get_all_transactions()
+
+        transactions_list = [Transaction(amount=t[3],category=t[1], subcategory=t[2], date=t[4], id=t[0]) for t in raw_transactions]
+
+        return transactions_list 
 
     def save_user_info(self, income, balance):
         """

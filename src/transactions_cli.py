@@ -124,18 +124,39 @@ def delete_expense(manager):
 
     menu_list_prompt += "\nYour choice :  "
 
-    # +1 for the "cancel" option (0)
-    user_input = get_and_validate_user_input(menu_list_prompt, len(transactions_list) + 1)
+    while True:
+        try:   
+            user_input_str = input(menu_list_prompt)
+            print("USER INPUT:", user_input_str)
 
-    if user_input == -1: # get_and_validate_user_input returns -1 for 0 input
-        print("\nTransaction deletion canceled.\n")
-        return
+        except KeyboardInterrupt:
+            print("Exiting program...")
+            break
 
-    transaction_to_delete = transactions_list[user_input]
-    manager.delete_transaction(transaction_to_delete)
+        if not user_input_str.isdigit():
+            print("ivalid input try again.\n")
+            continue
 
-    print(f"\nTransaction : 'CATEGORY : {transaction_to_delete.category} AMOUNT : {transaction_to_delete.amount} dzd' deleted successfully!\n")
-    print(MENU_BORDER_CHAR_SECONDARY * TRANSACTION_DISPLAY_WIDTH)
+        user_input_int = int(user_input_str)
+        print("USER INPUT INT:", user_input_int)
+
+        if user_input_int == 0:
+            print("\nTransaction deletion canceled...\n")
+            time.sleep(0.4)
+            return
+
+        if 1 <= user_input_int <= len(transactions_list):
+            user_input = user_input_int -1
+            
+            transaction_to_delete = transactions_list[user_input]
+            manager.delete_transaction(transaction_to_delete)
+            print(f"\nTRANSACTION INFO :\n-CATEGORY : {transaction_to_delete.category} \n-AMOUNT : {transaction_to_delete.amount} dzd\n-STATUS : deleted successfully!\n")
+            return
+        
+        else:
+            print(f"Deletion failed. Enter a number between 1 and {len(transactions_list)}.\n")
+
+     
     
 
 def handle_user_choice(CATEGORIES, manager, current_balance, user_income):

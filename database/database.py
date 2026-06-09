@@ -21,8 +21,6 @@ class Database:
 CREATE TABLE IF NOT EXISTS Transactions(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         category_id INTEGER
-        category TEXT,
-        subcategory TEXT,
         amount INTEGER,
         date TEXT
         )
@@ -79,6 +77,8 @@ CREATE TABLE IF NOT EXISTS User_data(
         conn.commit()
         conn.close()
 
+        return
+
     def load_transactions(self):
         """
         Loads all transactions from the database.
@@ -116,6 +116,8 @@ CREATE TABLE IF NOT EXISTS User_data(
 
         conn.commit()
         conn.close()
+
+        return
 
     def load_user_data(self):
         """
@@ -190,6 +192,27 @@ CREATE TABLE IF NOT EXISTS User_data(
         return category_total[0]
             
     
+    def get_subcategory_total(self, subcategory_name, category_name):
+
+        
+        subcategory_id = self.get_category_id(subcategory_name, category_name)
+
+        conn = sqlite3.connect(self.db_path)
+        c = conn.cursor()
+
+        query = "SELECT SUM(amount) FROM Transactions WHERE category_id = ?"
+        values =(subcategory_id,)
+
+        c.execute(query, values)
+        subcategory_total = c.fetchone()
+
+        conn.close
+
+        if subcategory_total is None or subcategory_total[0] is None:
+            return 0 
+        
+        return subcategory_total[0]
+    
     def get_category_tree(self):
         conn = sqlite3.connect(self.db_path)
         c = conn.cursor()
@@ -214,10 +237,42 @@ CREATE TABLE IF NOT EXISTS User_data(
 
             categories_dict[category[1]] = subcategories_list
 
-            print("CATEGORIES DICT:", categories_dict)
+        conn.close()
 
-            
+        if not categories_dict:
+            return None 
         
+        return categories_dict
+    
+    def get_total_expenses(self):
+        conn = sqlite3.connect(self.db_path)
+        c = conn.cursor()            
+        c.execute("SELECT SUM(amount) FROM Transactions")
+        total = c.fetchone()[0]
+        conn.close()
+        
+        return total if total is not None else 0
+    
+    def get_all_transactions(self):
+        conn = sqlite3.connect(self.db_path)
+        c = conn.cursor()
 
+        query = "SELECT \
+        Transactions.id, \
+        parent.name, \
+        sub.name, \
+        Transactions.amount, \
+        Transactions.date \
+        FROM Transactions \
+        JOIN categories AS sub ON category_id = sub.id \
+        JOIN categories AS parent ON sub.parent_id = parent.id;"
 
+        c.execute(query)
+
+        raw_transactions = c.fetchall()
+
+        return raw_transactions
+
+           
+    
 

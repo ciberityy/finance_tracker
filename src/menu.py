@@ -107,7 +107,7 @@ def display_expenses(manager, CATEGORIES, current_balance, user_income):
             dots_subcategory = "." * num_dots_subcategory
             print(f"  {subcategory_name} {dots_subcategory} {subcategory_amount_str}")
 
-    grand_total = manager.get_total() ####################
+    grand_total = manager.get_total() ####################inance_tracker_cli/src/transactions_cli.py", line 180, in handle_user_choice
     label_total_expenses = "TOTAL EXPENSES"
     amount_total = f"{grand_total:,} dzd"
 

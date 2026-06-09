@@ -1,6 +1,7 @@
 from src.transactions_cli import handle_user_choice
 from models import TransactionManager
 from src.constants import MAIN_MENU, TRANSACTIONS_MENU
+from database.database import Database
 
 
 def main():
@@ -10,11 +11,7 @@ def main():
     """
     manager = TransactionManager()
 
-    CATEGORIES = {
-        "Food": ["Sandwich", "Coffee", "Water"],
-        "Transport": ["Bus", "Taxi", "Vtc"],
-        "Chill_day": ["Dinner", "Beach_day", "Gaming"]
-    }
+    CATEGORIES = manager.db.get_category_tree()
 
     while True:
 
